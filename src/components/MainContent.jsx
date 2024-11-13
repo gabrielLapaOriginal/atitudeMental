@@ -21,6 +21,29 @@ const MainContent = () => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1024, // Para telas maiores que 1024px
+        settings: {
+          slidesToShow: 3, // Exibe 3 itens por vez
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768, // Para telas menores que 768px
+        settings: {
+          slidesToShow: 2, // Exibe 2 itens por vez
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480, // Para telas menores que 480px
+        settings: {
+          slidesToShow: 1, // Exibe 1 item por vez
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   // Função para abrir o modal e definir o item selecionado
@@ -50,14 +73,14 @@ const MainContent = () => {
           {data.map((item, index) => (
             <div
               key={index}
-              className="bg-white h-[600px] text-black rounded-2xl w-[375px] cursor-pointer"
+              className="bg-gray-200 h-[600px] text-black rounded-2xl w-[375px] cursor-pointer"
               onClick={() => handleItemClick(item)} 
             >
               <div className="flex justify-center items-center w-full">
                 <img src={item.image} alt={item.title} className="w-full" />
               </div>
               <div className="h-[300px] flex flex-col justify-center items-center gap-4 p-6 bg-gray-200 relative">
-                <p className="text-x font-semibold">{item.title}</p>
+                <p className="text-x sm:text-sm md:text-base lg:text-x font-semibold">{item.title}</p>
                 <div className="w-full h-0.5 bg-black mt-3 absolute top-28"></div>
                 <p className="mt-4">{item.description}</p>
               </div>
