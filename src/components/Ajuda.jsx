@@ -19,7 +19,7 @@ export default function Ajuda () {
 
     //axios
     try{
-      await axios.post('http://localhost:5000/matriculas', { matricula });
+      await axios.post('https://atitude-mental-back.vercel.app/matriculas', { matricula });
       console.log('Matricula salva')
     } catch(error){
       console.error(`Erro ao salvar matricula: ${error}`)
