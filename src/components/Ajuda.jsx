@@ -3,6 +3,7 @@ import { useState } from "react";
 import QrModal from "./QrModal";
 import {QRCodeSVG} from 'qrcode.react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 export default function Ajuda () {
   const [matricula, setMatricula] = useState("");
@@ -10,11 +11,19 @@ export default function Ajuda () {
   const [qrValue, setQrValue] = useState("")
   const navigate = useNavigate();
 
-  const openModal = ()=>{
+  const openModal = async ()=>{
     const message = `Boa tarde, sou estudante da Uninassau de matrícula ${matricula} e estou entrando em contato para falar sobre saúde mental.`;
   const encodedMessage = encodeURIComponent(message);  // Codificando a mensagem
     setQrValue(`https://wa.me/5581986671197?text=${encodedMessage}`)
     setIsModalOpen(true)
+
+    //axios
+    try{
+      await axios.post('http://localhost:5000/matriculas', { matricula });
+      console.log('Matricula salva')
+    } catch(error){
+      console.error(`Erro ao salvar matricula: ${error}`)
+    }
   }
   const closeModal = ()=>{
     setQrValue("")
@@ -52,7 +61,6 @@ export default function Ajuda () {
             className="w-full max-w-md p-4 border border-gray-300 rounded-3xl text-lg focus:outline-none focus:border-gray-400 bg-white placeholder-gray-500 text-center font-medium appearance-none no-spinner"
           />
           
-          {/* Botão redondo com seta */}
           <button  onClick={openModal} className="w-12 h-12 flex items-center justify-center bg-sky-300 rounded-full text-white hover:bg-sky-500 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
@@ -63,7 +71,7 @@ export default function Ajuda () {
         <QrModal open={isModalOpen} onClose={closeModal}>
           <div className="text-center w-[100%] h-[500px] bg-slate-100 rounded-xl shadow p-1">
             <h2 className="text-xl font-bold p-5">QR Code para Matrícula {matricula}</h2>
-            <p className="p-5 mb-3">Escaneie o QR code abaixo para acessar a página de matrícula:</p>
+            <p className="p-5 mb-3">Escaneie o QR code abaixo para entrar em contato com a psicologa:</p>
             <QRCodeSVG className="m-auto" value={qrValue} />
           </div>
         </QrModal>
